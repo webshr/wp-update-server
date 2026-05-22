@@ -464,7 +464,25 @@ Use a custom aggregate config path:
 vendor/bin/wpus config validate --config=/path/to/custom-config.php
 ```
 
-## Plugin Update Checker Integration
+## Client Integration
+
+The first-party WordPress client for this server is [`webshr/wp-update-sdk`](https://github.com/webshr/wp-update-sdk). Use it in your plugins or themes when you want the Webshr update flow, including support for this server's metadata, signed downloads, and licensing conventions.
+
+Install and usage details live in the SDK repository:
+
+```text
+https://github.com/webshr/wp-update-sdk
+```
+
+The metadata endpoint you pass to client integrations is:
+
+```text
+https://updates.example.com/metadata/my-plugin
+```
+
+## Plugin Update Checker Compatibility
+
+The server also exposes WordPress-compatible metadata that can be consumed by Yahnis Elsts' Plugin Update Checker.
 
 ```php
 require __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
@@ -478,7 +496,7 @@ PucFactory::buildUpdateChecker(
 );
 ```
 
-## Theme Integration
+## Theme Compatibility
 
 Plugin Update Checker also supports themes:
 
