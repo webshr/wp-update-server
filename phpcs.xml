@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ruleset name="Webshr_WP_Update_Server">
+	<description>PHPCS settings for the Webshr headless WordPress update server.</description>
+
+	<arg name="basepath" value="."/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+	<arg name="warning-severity" value="0"/>
+	<arg name="error-severity" value="5"/>
+	<arg value="sp"/>
+
+	<file>src</file>
+	<file>stubs</file>
+	<file>tests</file>
+	<file>bin/wpus</file>
+
+	<rule ref="PSR12"/>
+	<!-- PSR12 only: this project is a standalone server, not a WordPress runtime. -->
+
+	<exclude-pattern type="relative">^vendor/*</exclude-pattern>
+	<exclude-pattern type="relative">^storage/*</exclude-pattern>
+
+	<!-- Legacy YahnisElsts sources are no longer part of the modern runtime. -->
+	<exclude-pattern type="relative">^includes/*</exclude-pattern>
+	<exclude-pattern type="relative">^loader\.php$</exclude-pattern>
+</ruleset>

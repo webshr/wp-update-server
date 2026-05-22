@@ -1,0 +1,17 @@
+/vendor/
+/composer.lock
+/.env
+/.idea/
+
+config/licenses.php
+config/packages.php
+
+/storage/packages/*
+/storage/cache/*
+/storage/logs/*
+!/storage/packages/.gitkeep
+!/storage/cache/.gitkeep
+!/storage/logs/.gitkeep
+
+.env
+update-server.php

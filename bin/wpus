@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Webshr\WpUpdateServer\Console\Application;
+
+$autoloadPath = $GLOBALS['_composer_autoload_path'] ?? null;
+$autoloadPaths = array_filter([
+    is_string($autoloadPath) ? $autoloadPath : null,
+    dirname(__DIR__) . '/vendor/autoload.php',
+    dirname(__DIR__, 3) . '/autoload.php',
+]);
+
+foreach ($autoloadPaths as $path) {
+    if (is_file($path)) {
+        require $path;
+        break;
+    }
+}
+
+if (!class_exists(Application::class)) {
+    fwrite(STDERR, "Error: Composer autoload file could not be found.\n");
+    exit(1);
+}
+
+$root = getenv('WP_UPDATE_SERVER_ROOT');
+if ($root === false || $root === '') {
+    $cwd = getcwd();
+    $root = $cwd !== false ? $cwd : dirname(__DIR__);
+}
+
+exit((new Application($root))->run($argv));

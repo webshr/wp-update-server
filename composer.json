@@ -1,0 +1,52 @@
+{
+	"name": "webshr/wp-update-server",
+	"description": "Headless standalone update server for WordPress plugins and themes.",
+	"keywords": ["wordpress", "plugin updates", "automatic updates", "theme updates"],
+	"homepage": "https://github.com/webshr/wp-update-server/",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Henrik Liebel",
+			"email": "hello@webshore.eu",
+			"homepage": "https://webshore.eu"
+		}
+	],
+	"require": {
+		"php": ">=8.2",
+		"ext-json": "*",
+		"ext-zip": "*",
+		"erusev/parsedown": "^1.8",
+		"vlucas/phpdotenv": "^5.6"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^2.1",
+		"squizlabs/php_codesniffer": "^4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Webshr\\WpUpdateServer\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Webshr\\WpUpdateServer\\Tests\\": "tests/"
+		}
+	},
+	"bin": [
+		"bin/wpus"
+	],
+	"scripts": {
+		"analyse": "phpstan analyse --memory-limit=2G --no-progress",
+		"lint": "phpcs --standard=phpcs.xml",
+		"lint:fix": "phpcbf --standard=phpcs.xml",
+		"test": "php tests/run.php",
+		"check": [
+			"@lint",
+			"@analyse",
+			"@test"
+		]
+	},
+	"suggest": {
+		"ext-mbstring": "Used for escaping log values in a utf8 compatible manner. If the extension isn't installed logged values are handled as single-byte character strings."
+	}
+}

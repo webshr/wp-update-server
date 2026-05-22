@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  php:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: json, zip
+
+      - name: Install composer dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Run tests
+        run: composer test
+
+      - name: Run PHP_CodeSniffer
+        run: composer lint
+
+      - name: Run PHPStan static analysis
+        run: composer analyse
