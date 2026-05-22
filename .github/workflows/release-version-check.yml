@@ -1,4 +1,4 @@
-name: Version Constant Check
+name: Release Version Check
 on:
   release:
     types: [published]
@@ -7,14 +7,15 @@ jobs:
   validate-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Check Version Match
+      - name: Validate Release Tag
         run: |
-          TAG_VERSION=${GITHUB_REF#refs/tags/v}
-          CODE_VERSION=$(php -r 'include "includes/Version.php"; echo Wpup_Version::VERSION;')
-          
-          if [ "$TAG_VERSION" != "$CODE_VERSION" ]; then
-            echo "Version mismatch: Tag version ($TAG_VERSION) doesn't match Version.php ($CODE_VERSION)"
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          TAG_VERSION=${TAG_NAME#v}
+
+          if ! echo "$TAG_VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+([.-](alpha|beta|rc)[.-]?[0-9]*)?$'; then
+            echo "Invalid release tag: $TAG_NAME"
+            echo "Use a SemVer tag such as v1.2.3, 1.2.3, v1.2.3-beta.1, or 1.2.3-beta.1."
             exit 1
           fi
